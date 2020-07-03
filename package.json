@@ -1,0 +1,17 @@
+{
+  "name": "delta-processor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "mathjs": "^7.0.2",
+    "moving-median": "^1.0.0",
+    "node-fetch": "^2.6.0",
+    "url-join": "^4.0.1"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
