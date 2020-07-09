@@ -13,6 +13,7 @@ export default class UnitConverter {
             "performance.polarSpeedRatio": percent,
             "environment.wind.speedTrue": knots,
             "environment.wind.speedApparent": knots,
+            "steering.rudderAngle": degrees,
         }
     }
 
