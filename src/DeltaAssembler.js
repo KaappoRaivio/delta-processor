@@ -1,5 +1,6 @@
 import getPipeline from "./DeltaPipeline.js"
 import math from "mathjs";
+import {valueSkeleton} from "./DataStructures";
 
 
 export default class DeltaAssembler {
@@ -59,7 +60,7 @@ export const getByStringPath = (path, object, createIfMissing=false) => {
                     object[index] = {};
                     return object[index];
                 } else {
-                    return {}
+                    return valueSkeleton
                 }
             }
             return object[index];
@@ -71,8 +72,7 @@ export const getByStringPath = (path, object, createIfMissing=false) => {
             }
         }
     }, object);
-    // console.log("\nDeltaAssembler", t);
-    return t;
+    return t || valueSkeleton;
 }
 
 export const setByStringPath = (path, object, leaf) => {
