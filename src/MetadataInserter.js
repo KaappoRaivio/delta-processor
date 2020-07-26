@@ -28,20 +28,23 @@ export default class MetadataInserter {
                 .then(async response => {
                     if (response.status === 404) {
                         console.log("error!")
-                        return {};
+                        return valueSkeleton;
                     } else {
                         return await response.json();
                     }
                 })
                 .then(meta => {
+                    if (!meta.displayScale) meta.displayScale = valueSkeleton.meta.displayScale
+                    if (!meta.zones) meta.zones = valueSkeleton.meta.zones
+
                     if (!(delta.path in this.metaCache)) {
-                        console.log("No cache hit!")
                         this.metaCache[delta.path] = cloneDeep(meta);
                     }
+
                     return meta;
                 })
                 .then(meta => ({...delta, meta}))
-                .catch(err => ({...delta, meta: valueSkeleton}))
+                .catch(err => ({...delta, meta: valueSkeleton.meta}))
         }
     }
 }
