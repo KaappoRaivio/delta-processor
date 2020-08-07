@@ -24,6 +24,7 @@ export default (serverAddress) => {
     }
 
     const deltaPrinter = delta => {
+        if (delta.path === "navigation.position") console.log(delta)
         return delta;
     }
 
@@ -35,9 +36,10 @@ export default (serverAddress) => {
 
 
     return new Pipeline()
+        // .pipe(deltaPrinter)
         .pipe(medianFilter)
         .pipe(metadataInserter)
         .pipe(displayNameInserter)
-        .pipe(unitConverter)
-        .pipe(deltaPrinter);
+        .pipe(unitConverter);
+        // .pipe(deltaPrinter);
 }
