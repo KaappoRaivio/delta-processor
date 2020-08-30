@@ -1,18 +1,37 @@
 {
   "name": "delta-processor",
-  "version": "1.0.0",
+  "version": "0.0.1",
+  "description": "a helper package for Scientia",
   "main": "index.js",
-  "license": "MIT",
-  "type": "module",
   "dependencies": {
+    "decimal.js": "^10.2.0",
+    "complex.js": "^2.0.11",
+    "escape-latex": "^1.2.0",
+    "javascript-natural-sort": "^0.7.1",
+    "mathjs": "^7.1.0",
     "lodash": "^4.17.19",
-    "mathjs": "^7.0.2",
     "moving-median": "^1.0.0",
-    "node-fetch": "^2.6.0",
     "pipeline-js": "^1.0.2",
+    "node-fetch": "^2.6.0",
+    "seed-random": "^2.2.0",
+    "tiny-emitter": "^2.1.0",
+    "fraction.js": "^4.0.12",
+    "typed-function": "^2.0.0",
     "url-join": "^4.0.1"
   },
+  "devDependencies": {},
   "scripts": {
-    "start": "node index.js"
-  }
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KaappoRaivio/delta-processor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KaappoRaivio/delta-processor/issues"
+  },
+  "homepage": "https://github.com/KaappoRaivio/delta-processor#readme"
 }
