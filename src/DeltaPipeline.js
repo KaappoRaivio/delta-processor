@@ -1,12 +1,12 @@
 import Pipeline from "pipeline-js";
 import MetadataInserter from "./MetadataInserter.js";
 import MedianCalculator from "./MedianCalculator.js";
-import UnitConverter from "./UnitConverter";
+import UnitConverter, { defaultConversions } from "./UnitConverter";
 import {camelCaseToSentenceCase} from "./DataStructures.js";
 
 
-export default (serverAddress) => {
-
+export default (serverAddress, unitConversions=defaultConversions) => {
+    console.log(unitConversions)
     const medianCalculator = new MedianCalculator();
     const medianFilter = delta => {
         return medianCalculator.getMedian(delta);
@@ -28,7 +28,7 @@ export default (serverAddress) => {
         return delta;
     }
 
-    const converter = new UnitConverter();
+    const converter = new UnitConverter(unitConversions);
     const unitConverter = delta => {
         return converter.convert(delta);
     }

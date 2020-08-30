@@ -1,21 +1,38 @@
-export default class UnitConverter {
-    constructor () {
-        const knots = new Unit("kts", 3.6 / 1.852);
-        const nauticalMiles = new Unit("nm", 1 / 1852);
-        const degrees = new Unit("°", 180 / Math.PI);
-        const percent = new Unit("%", 100);
+export class Unit {
+    constructor (displayName, proportionToSIUnit) {
+        this.displayName = displayName;
+        this.proportionToSIUnit = proportionToSIUnit;
+    }
 
-        this.conversions = {
-            "navigation.courseOverGroundTrue": degrees,
-            "navigation.trip.log": nauticalMiles,
-            "navigation.speedOverGround": knots,
-            "navigation.speedThroughWater": knots,
-            "performance.polarSpeed": knots,
-            "performance.polarSpeedRatio": percent,
-            "environment.wind.speedTrue": knots,
-            "environment.wind.speedApparent": knots,
-            "steering.rudderAngle": degrees,
-        }
+    apply (value) {
+        return this.proportionToSIUnit * value;
+    }
+
+    toString() {
+        return `Unit(${this.displayName}, ${this.proportionToSIUnit})`
+    }
+}
+
+const knots = new Unit("kts", 3.6 / 1.852);
+const nauticalMiles = new Unit("nm", 1 / 1852);
+const degrees = new Unit("°", 180 / Math.PI);
+const percent = new Unit("%", 100);
+
+export const defaultConversions = {
+    "navigation.courseOverGroundTrue": degrees,
+    "navigation.trip.log": nauticalMiles,
+    "navigation.speedOverGround": knots,
+    "navigation.speedThroughWater": knots,
+    "performance.polarSpeed": knots,
+    "performance.polarSpeedRatio": percent,
+    "environment.wind.speedTrue": knots,
+    "environment.wind.speedApparent": knots,
+    "steering.rudderAngle": degrees,
+}
+
+export default class UnitConverter {
+    constructor (unitConversions=defaultConversions) {
+        this.conversions = unitConversions;
     }
 
     convert (delta) {
@@ -38,20 +55,5 @@ export default class UnitConverter {
             }
         }
         return delta;
-    }
-}
-
-class Unit {
-    constructor (displayName, proportionToSIUnit) {
-        this.displayName = displayName;
-        this.proportionToSIUnit = proportionToSIUnit;
-    }
-
-    apply (value) {
-        return this.proportionToSIUnit * value;
-    }
-
-    toString() {
-        return `Unit(${this.displayName}, ${this.proportionToSIUnit})`
     }
 }

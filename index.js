@@ -1,9 +1,10 @@
 import { getByStringPath, setByStringPath } from "./src/DeltaAssembler";
 import { valueSkeleton } from "./src/DataStructures.js";
 import DeltaAssembler from "./src/DeltaAssembler.js";
+import { Unit } from "./src/UnitConverter.js"
 
 export default DeltaAssembler;
-export { getByStringPath, setByStringPath, valueSkeleton };
+export { getByStringPath, setByStringPath, valueSkeleton, Unit };
 // let assembler = new DeltaAssembler("http://localhost:3000/");
 // // assembler._createBranchAndLeaf("environment.depth.belowTransducer", 12)
 // // assembler._createBranchAndLeaf("environment.wind.speedTrue", 24)

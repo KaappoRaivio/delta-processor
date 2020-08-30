@@ -4,7 +4,7 @@ import {valueSkeleton} from "./DataStructures";
 
 
 export default class DeltaAssembler {
-    constructor (serverAddress, changeCallback) {
+    constructor (serverAddress, changeCallback, unitConversions) {
         this.serverAddress = serverAddress;
         this.fullState = {
             vessels: {
@@ -14,7 +14,7 @@ export default class DeltaAssembler {
             }
         }
         this.changeCallback = changeCallback;
-        this.pipeline = getPipeline(this.serverAddress);
+        this.pipeline = getPipeline(this.serverAddress, unitConversions);
     }
 
     onDelta (delta) {
