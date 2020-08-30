@@ -27,7 +27,6 @@ export default class MetadataInserter {
             return fetch(HTTPPath)
                 .then(async response => {
                     if (response.status === 404) {
-                        console.log("error!")
                         return valueSkeleton;
                     } else {
                         return await response.json();
