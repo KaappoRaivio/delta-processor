@@ -36,7 +36,7 @@ export default class UnitConverter {
     }
 
     convert (delta) {
-        if (delta.path in this.conversions) {
+        if (delta.path in this.conversions && delta.meta.isNumber) {
             let unit = this.conversions[delta.path];
 
             delta.value = unit.apply(delta.value);

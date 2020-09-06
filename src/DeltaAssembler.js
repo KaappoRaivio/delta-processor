@@ -1,5 +1,4 @@
 import getPipeline from "./DeltaPipeline.js"
-import math from "mathjs";
 import {valueSkeleton} from "./DataStructures";
 
 
@@ -14,7 +13,9 @@ export default class DeltaAssembler {
             }
         }
         this.changeCallback = changeCallback;
-        this.pipeline = getPipeline(this.serverAddress, unitConversions);
+        this.pipeline = getPipeline(this.serverAddress,newDelta => {
+            this._mergeToFullState(newDelta);
+        }, unitConversions);
     }
 
     onDelta (delta) {
@@ -24,10 +25,14 @@ export default class DeltaAssembler {
     _mergeToFullState (delta) {
         if (delta.updates)  {
             delta.updates.forEach(update => update.values.forEach(value => {
-                this._processDeltaValue(value, processedValue => {
-                    this._createBranchAndLeaf(processedValue.path, processedValue);
-                    this.changeCallback(this.fullState)
-                })
+                try {
+                    this._processDeltaValue(value, processedValue => {
+                        this._createBranchAndLeaf(processedValue.path, processedValue);
+                        this.changeCallback(this.fullState)
+                    })
+                } catch (e) {
+                    
+                }
             }))
         }
     }
@@ -36,8 +41,8 @@ export default class DeltaAssembler {
         setByStringPath(branch, this.fullState.vessels.self, leaf)
     }
 
-    _processDeltaValue (delta, callback) {
-        this.pipeline.process(delta)
+    _processDeltaValue (value, callback) {
+        this.pipeline.process(value)
             .then(processedDelta => {
                 // console.log(processedDelta)
                 callback(processedDelta);
@@ -53,7 +58,6 @@ export const getByStringPath = (path, object, createIfMissing=false) => {
     const pathArray = path.split(".");
 
     let t = pathArray.reduce((object, index) => {
-        // console.log("DeltaAssembler", object, index);
         if (pathArray.indexOf(index) < pathArray.length - 1) {
             if (object[index] === undefined) {
                 if (createIfMissing) {

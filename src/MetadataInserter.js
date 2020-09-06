@@ -27,14 +27,19 @@ export default class MetadataInserter {
             return fetch(HTTPPath)
                 .then(async response => {
                     if (response.status === 404) {
-                        return valueSkeleton;
+                        return valueSkeleton.meta;
                     } else {
                         return await response.json();
                     }
                 })
                 .then(meta => {
-                    if (!meta.displayScale) meta.displayScale = valueSkeleton.meta.displayScale
-                    if (!meta.zones) meta.zones = valueSkeleton.meta.zones
+                    // if (!meta.displayScale) meta.displayScale = valueSkeleton.meta.displayScale
+                    // if (!meta.zones) meta.zones = valueSkeleton.meta.zones
+                    // meta.isNumber = true;
+                    meta = {...valueSkeleton.meta, ...meta}
+                    if (delta.path === "navigation.position.latitude") {
+                        meta.isNumber = false;
+                    }
 
                     if (!(delta.path in this.metaCache)) {
                         this.metaCache[delta.path] = cloneDeep(meta);
@@ -43,7 +48,10 @@ export default class MetadataInserter {
                     return meta;
                 })
                 .then(meta => ({...delta, meta}))
-                .catch(err => ({...delta, meta: valueSkeleton.meta}))
+                // .catch(err => {
+                //     console.log(err)
+                //     return ({...delta, meta: valueSkeleton.meta});
+                // })
         }
     }
 }

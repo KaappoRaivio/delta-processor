@@ -1,10 +1,11 @@
 export const valueSkeleton = {
     meta: {
-        units: null,
+        units: "",
         zones: [],
-        displayScale: {"upper": null, "lower": null, "type": "linear"},
+        displayScale: {"upper": 0, "lower": 102, "type": "linear"},
         decimalPlaces: 1,
-        displayName: ""
+        displayName: "",
+        isNumber: true,
     },
     value: null,
 };
