@@ -1,9 +1,10 @@
 import getPipeline from "./DeltaPipeline.js"
 import {valueSkeleton} from "./DataStructures";
+import lodash from "lodash";
 
 
 export default class DeltaAssembler {
-    constructor (serverAddress, changeCallback, unitConversions) {
+    constructor (serverAddress, changeCallback, unitConversions, callbackInterval = 0) {
         this.serverAddress = serverAddress;
         this.fullState = {
             vessels: {
@@ -12,7 +13,26 @@ export default class DeltaAssembler {
                 }
             }
         }
-        this.changeCallback = changeCallback;
+
+        this.hasNewUpdates = false;
+
+        if (callbackInterval) {
+            this.changeCallback = fullState => {
+                this.hasNewUpdates = true;
+            }
+
+            setInterval(() => {
+                if (this.hasNewUpdates) {
+                    changeCallback(lodash.cloneDeep(this.fullState));
+
+                    this.hasNewUpdates = false;
+                }
+            }, callbackInterval)
+        } else {
+            this.changeCallback = changeCallback;
+        }
+
+
         this.pipeline = getPipeline(this.serverAddress,newDelta => {
             this._mergeToFullState(newDelta);
         }, unitConversions);
@@ -23,17 +43,18 @@ export default class DeltaAssembler {
     }
 
     _mergeToFullState (delta) {
-        if (delta.updates)  {
+        if (delta.updates) {
+
             delta.updates.forEach(update => update.values.forEach(value => {
                 try {
                     this._processDeltaValue(value, processedValue => {
                         this._createBranchAndLeaf(processedValue.path, processedValue);
-                        this.changeCallback(this.fullState)
                     })
                 } catch (e) {
-                    
+
                 }
             }))
+            this.changeCallback(this.fullState)
         }
     }
 
