@@ -2,8 +2,6 @@ import fetch from "node-fetch";
 import urlJoin from "url-join";
 import {valueSkeleton} from "./DataStructures.js";
 
-import { cloneDeep } from "lodash";
-
 const pathRegexToHTTP = path => "/".concat(path.toString()
     .replace(/([\\+.])+/g, "/")
     .concat("/"))
@@ -21,7 +19,7 @@ export default class MetadataInserter {
         let HTTPPath = urlJoin(urlJoin(this.APIEndPoint, pathRegexToHTTP(delta.path)), "meta")
 
         if (delta.path in this.metaCache) {
-            const meta = cloneDeep(this.metaCache[delta.path]);
+            const meta = JSON.parse(JSON.stringify(this.metaCache[delta.path]));
             return {...delta, meta};
         } else {
             return fetch(HTTPPath)
@@ -42,7 +40,7 @@ export default class MetadataInserter {
                     }
 
                     if (!(delta.path in this.metaCache)) {
-                        this.metaCache[delta.path] = cloneDeep(meta);
+                        this.metaCache[delta.path] = JSON.parse(JSON.stringify(meta));
                     }
 
                     return meta;
