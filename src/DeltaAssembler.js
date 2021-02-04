@@ -1,6 +1,5 @@
 import getPipeline from "./DeltaPipeline.js"
 import {valueSkeleton} from "./DataStructures";
-import lodash from "lodash";
 
 
 export default class DeltaAssembler {
@@ -23,7 +22,7 @@ export default class DeltaAssembler {
 
             setInterval(() => {
                 if (this.hasNewUpdates) {
-                    changeCallback(lodash.cloneDeep(this.fullState));
+                    changeCallback(JSON.parse(JSON.stringify(this.fullState)))
 
                     this.hasNewUpdates = false;
                 }
@@ -65,7 +64,6 @@ export default class DeltaAssembler {
     _processDeltaValue (value, callback) {
         this.pipeline.process(value)
             .then(processedDelta => {
-                // console.log(processedDelta)
                 callback(processedDelta);
             });
     }
@@ -80,7 +78,7 @@ export const getByStringPath = (path, object, createIfMissing=false) => {
 
     let t = pathArray.reduce((object, index) => {
         if (pathArray.indexOf(index) < pathArray.length - 1) {
-            if (object[index] === undefined) {
+            if (object[index] === undefined) {
                 if (createIfMissing) {
                     object[index] = {};
                     return object[index];
