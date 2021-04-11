@@ -25,8 +25,8 @@ export default (serverAddress, createDelta, unitConversions=defaultConversions) 
         delta.meta.displayName = camelCaseToSentenceCase(delta.path.split(".").slice(1).join(", "));
         return delta;
     }
-    const timeStampInserter = delta => {
-        delta.meta.timeStamp = new Date().toISOString()
+    const timestampInserter = delta => {
+        delta.meta.timestamp = new Date().toISOString()
         return delta;
     }
 
@@ -47,7 +47,7 @@ export default (serverAddress, createDelta, unitConversions=defaultConversions) 
         .pipe(medianFilter)
         .pipe(metadataInserter)
         .pipe(displayNameInserter)
-        .pipe(timeStampInserter)
+        .pipe(timestampInserter)
         .pipe(unitConverter)
         .pipe(_positionConverter)
         .pipe(deltaPrinter);
