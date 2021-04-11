@@ -23,11 +23,11 @@ export default class MetadataInserter {
             return {...delta, meta};
         } else {
             return fetch(HTTPPath)
-                .then(async response => {
+                .then(response => {
                     if (response.status === 404) {
-                        return valueSkeleton.meta;
+                        return new Promise(resolve => {resolve(valueSkeleton.meta)});
                     } else {
-                        return await response.json();
+                        return response.json();
                     }
                 })
                 .then(meta => {
