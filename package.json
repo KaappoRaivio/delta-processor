@@ -1,6 +1,6 @@
 {
   "name": "delta-processor",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "a helper package for Scientia",
   "main": "index.js",
   "dependencies": {
