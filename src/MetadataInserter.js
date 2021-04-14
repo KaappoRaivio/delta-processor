@@ -30,12 +30,10 @@ export default class MetadataInserter {
                         return response.json();
                     }
                 })
+                .catch(err => new Promise(resolve => {resolve(valueSkeleton.meta)}))
                 .then(meta => {
-                    // if (!meta.displayScale) meta.displayScale = valueSkeleton.meta.displayScale
-                    // if (!meta.zones) meta.zones = valueSkeleton.meta.zones
-                    // meta.isNumber = true;
                     meta = {...valueSkeleton.meta, ...meta}
-                    if (delta.path === "navigation.position.latitude") {
+                    if (delta.path === "navigation.position.latitude" || delta.path === "navigation.position.longitude") {
                         meta.isNumber = false;
                     }
 
@@ -46,10 +44,6 @@ export default class MetadataInserter {
                     return meta;
                 })
                 .then(meta => ({...delta, meta}))
-                // .catch(err => {
-                //     console.log(err)
-                //     return ({...delta, meta: valueSkeleton.meta});
-                // })
         }
     }
 }

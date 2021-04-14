@@ -8,8 +8,6 @@ import {positionConverter} from "./PositionConverter";
 
 
 export default (serverAddress, createDelta, unitConversions=defaultConversions) => {
-    console.log(unitConversions);
-
     const deltaSplitter = new DeltaObjectSplitter(createDelta);
     const splitter = delta => deltaSplitter.process(delta);
 

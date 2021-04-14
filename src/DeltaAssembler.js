@@ -102,7 +102,7 @@ export const setByStringPath = (path, object, leaf) => {
     const pathArray = path.split(".");
     pathArray.reduce((object, index) => {
         if (pathArray.indexOf(index) < pathArray.length - 1) {
-            if (object[index] === undefined) {
+            if (object[index] === undefined) {
                 object[index] = {};
             }
             return object[index];
